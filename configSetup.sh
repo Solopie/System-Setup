@@ -1,15 +1,75 @@
-#!/bin/sh
+#!/bin/bash
+
+# Check if file exists and asks if we want to overwrite the file
+PROMPT="y"
+
+main() {
+    # Auto mode or prompt if want to overwrite. Prompt will be default
+    parseArgs $@
+
+    # Tmux conf
+    prompt ~/.tmux.conf
+    [ "$?" == "0" ] && writeTmuxConf || echo "Tmux conf cancelled."
+
+    # Vimrc
+    prompt ~/.vimrc
+    [ "$?" == "0" ] && writeVimrc || echo "Vimrc cancelled."
+     
+    echo "System setup complete."
+}
+
+parseArgs() {
+    # Parse arguments
+    for arg in "$@"
+    do
+        case $arg in
+            -o|--overwrite)
+            PROMPT="n"
+            shift
+            ;;
+        esac
+    done
+}
+
+prompt() { 
+    overwrite="n"
+    # If we don't want prompt then we leave immediately
+    [ $PROMPT == "n" ] && return 1
+
+    # Prompt will activate if a given file exists
+    # 1 means file isn't overwritten and 0 means successful overwrite
+    file=$1
+
+    # If file is empty then return 1
+    [ -z $file ] && return 1
+
+    # Check if file exists, if file exists then we prompt
+    [ -f $file ] && read -p "$file already exists. Overwrite? [y/n]: " overwrite
+    
+    while [ $overwrite != "y" ] && [ $overwrite != "n" ] 
+    do
+        read -p "Incorrect input. Please give \"y\" or \"n\": " overwrite
+    done
+
+    [ $overwrite == "y" ] && return 0 || return 1
+}
 
 # Tmux Conf
-
-cat <<EOT >> ~/.tmux.conf
+writeTmuxConf() {
+    
+    cat <<EOT > ~/.tmux.conf
+# Written on $(date)
 set-window-option -g xterm-keys on
 set-window-option -g mode-keys vi
 EOT
+    echo "Tmux conf written"
+}
+
 
 # Vim Conf
-
-cat <<EOT >> ~/.vimrc
+writeVimrc() {
+    cat <<EOT > ~/.vimrc
+" Written on $(date)
 " enable syntax highlighting
 syntax enable
 
@@ -45,7 +105,7 @@ if &term =~ '^screen'
     execute "set <xLeft>=\e[1;*D"
 endif
 EOT
+    echo "Vimrc written"
+}
 
-
-
-
+main $@

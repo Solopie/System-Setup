@@ -8,8 +8,17 @@ Script to setup my environment on a new Linux System.
     - Vim
     - Tmux
 
+## Implemented
+
+- Prompt when file exists
+    - Ask if file wants to be overwritten first
+- Overwrite mode
+    - Overwrite with no prompt
+
 ## Future implementations
 
+- Instead of updating config file from inside code, have a file be copied from the repository to the file system.
+    - Allows users to edit the configs to their own without going into the code which may be tedious.
 - Copy to clipboard (Bash Alias)
     - Linux
         - Install xclip
