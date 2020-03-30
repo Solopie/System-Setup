@@ -61,6 +61,7 @@ writeTmuxConf() {
 # Written on $(date)
 set-window-option -g xterm-keys on
 set-window-option -g mode-keys vi
+set -g default-terminal "screen-256color"
 EOT
     echo "Tmux conf written"
 }

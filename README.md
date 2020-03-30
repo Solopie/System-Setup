@@ -7,6 +7,7 @@ Script to setup my environment on a new Linux System.
 - Configuration files
     - Vim
     - Tmux
+    - (TODO) Bash aliases
 
 ## Implemented
 
@@ -19,6 +20,7 @@ Script to setup my environment on a new Linux System.
 
 - Instead of updating config file from inside code, have a file be copied from the repository to the file system.
     - Allows users to edit the configs to their own without going into the code which may be tedious.
+- Implement bash aliases
 - Copy to clipboard (Bash Alias)
     - Linux
         - Install xclip
